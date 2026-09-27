@@ -1,0 +1,32 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>해치의 연말 트리 꾸미기</title><style>
+*{box-sizing:border-box}body{margin:0;background:#30160c;font-family:Arial,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;color:#382014}
+.wrap{max-width:768px;margin:auto;min-height:100vh;background:#4b2718}.title{text-align:center;padding:17px 12px 12px;color:#fff;background:#6c341c}.title h1{font-size:clamp(22px,6vw,36px);margin:0}.title b{color:#ffd638}.title p{margin:6px 0 0;font-size:12px}
+.game{position:relative;width:100%;aspect-ratio:3/2;overflow:hidden}.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.haechi{position:absolute;left:5%;bottom:2%;width:26%;z-index:4;filter:drop-shadow(0 5px 4px #0005)}
+.slot{position:absolute;width:10%;aspect-ratio:1;z-index:5}.slot img{width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(.3);transition:.4s cubic-bezier(.2,1.6,.4,1);filter:drop-shadow(0 3px 2px #0005)}.slot.found img{opacity:1;transform:scale(1)}
+.s1{left:44%;top:29%}.s2{left:57%;top:40%}.s3{left:39%;top:51%}.s4{left:61%;top:60%}.s5{left:49%;top:70%}
+.progress{position:absolute;right:3%;top:3%;z-index:8;background:#fff3d7eF;border:3px solid #d49431;border-radius:14px;padding:8px 14px;font-weight:1000;font-size:clamp(16px,4vw,26px)}
+.complete{display:none;text-align:center;background:#fff1c8;padding:15px;font-weight:1000;color:#d12631}.complete.show{display:block}
+.previewbar{text-align:center;padding:9px;background:#e7c27f}.preview{border:1px dashed #86521e;border-radius:9px;background:#fff8e8;padding:8px 12px;color:#633914}
+.steps{display:none;padding:15px;background:#e7c27f}.steps.show{display:block}.card{background:#fff9e9;border:3px solid #dda342;border-radius:18px;padding:17px;margin-bottom:12px;text-align:center}.badge{background:#d62430;color:white;border-radius:30px;padding:5px 12px;font-size:11px;font-weight:bold}.card h2{margin:10px 0}.card p{font-size:12px;line-height:1.6}.naver,.btn{display:block;width:100%;padding:14px;border:0;border-radius:12px;color:#fff;font-weight:900;text-decoration:none}.naver{background:#03c75a}.btn{background:#d92732;margin-top:8px}.pw{width:100%;padding:13px;border:2px solid #ddd;border-radius:10px;text-align:center;font-size:20px;letter-spacing:8px}.draw{display:none}.draw.show{display:block}.boxes{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.giftbtn{font-size:32px;border:0;border-radius:10px;padding:10px 0;background:#f0d49d}.result{display:none;position:fixed;inset:0;background:#180b06e8;z-index:50;align-items:center;justify-content:center}.result>div{background:#fff4d7;border:4px solid #dda342;border-radius:22px;padding:25px;text-align:center;width:min(350px,90vw)}.result strong{font-size:26px;color:#cf2630}
+</style></head><body><main class="wrap"><header class="title"><h1>🎄 해치의 <b>연말 트리 꾸미기</b></h1><p>전시장 안에 숨겨진 5가지 장식을 찾아 트리를 완성해요!</p></header>
+<section class="game"><img class="bg" src="assets/game-bg.png"><img class="haechi" src="assets/haechi-original.png">
+<div class="progress"><span id="count">0</span> / 5</div>
+<div class="slot s1" id="s1"><img src="assets/star.png"></div><div class="slot s2" id="s2"><img src="assets/bell.png"></div><div class="slot s3" id="s3"><img src="assets/bow.png"></div><div class="slot s4" id="s4"><img src="assets/candy.png"></div><div class="slot s5" id="s5"><img src="assets/gift.png"></div></section>
+<div class="complete" id="complete">🎄 해치의 연말 트리 완성!<br><small>5가지 장식을 모두 찾았어요!</small></div>
+<div class="previewbar"><button class="preview" id="preview" onclick="testAdd()">미리보기 · 다음 장식 발견</button></div>
+<section class="steps" id="steps"><div class="card"><span class="badge">STEP 1</span><h2>네이버 리뷰 작성하기</h2><p>오늘 체험에 대한 솔직한 후기를 자유롭게 남겨주세요.<br>작성 후 실제 리뷰 화면을 직원에게 보여주세요.</p><a class="naver" href="https://m.place.naver.com/my" target="_blank">N 네이버 리뷰 쓰러가기 ›</a></div>
+<div class="card"><span class="badge">STEP 2</span><h2>직원에게 인증하기</h2><p>작성한 리뷰 화면을 직원에게 보여주세요.</p><input id="pw" class="pw" type="password" inputmode="numeric" maxlength="4" placeholder="••••"><button class="btn" onclick="unlock()">확인하기 ›</button><small id="err"></small></div>
+<div class="card draw" id="draw"><span class="badge">STEP 3</span><h2>행운의 선물상자 뽑기!</h2><p>상자 하나를 골라주세요. 선택은 단 한 번!</p><div class="boxes"><button class="giftbtn" onclick="pick()">🎁</button><button class="giftbtn" onclick="pick()">🎁</button><button class="giftbtn" onclick="pick()">🎁</button><button class="giftbtn" onclick="pick()">🎁</button><button class="giftbtn" onclick="pick()">🎁</button></div></div></section></main>
+<div class="result" id="result"><div><div style="font-size:60px" id="rico">🎉</div><h2>선물상자 OPEN!</h2><strong id="won"></strong><p>이 화면을 직원에게 보여주세요.</p><b>✓ 당첨 완료 · 재추첨 불가</b></div></div>
+<script>
+const K="HAECHI_TREE_REBUILD_V1",prizes=[["상품 1","🎁"],["상품 2","🎉"],["상품 3","⭐"],["상품 4","🍀"],["상품 5","🎀"]];
+let d={got:[],ok:false,result:null};try{d=Object.assign(d,JSON.parse(localStorage.getItem(K)||"{}"))}catch(e){};const save=()=>localStorage.setItem(K,JSON.stringify(d));
+let q=Number(new URLSearchParams(location.search).get("ornament"));if(q>=1&&q<=5&&!d.got.includes(q)){d.got.push(q);save()}
+function render(){count.textContent=d.got.length;for(let i=1;i<=5;i++)document.getElementById("s"+i).classList.toggle("found",d.got.includes(i));if(d.got.length===5){complete.classList.add("show");steps.classList.add("show");previewbar.style.display="none"}if(d.ok)draw.classList.add("show");if(d.result)show(d.result)}
+function testAdd(){for(let i=1;i<=5;i++)if(!d.got.includes(i)){d.got.push(i);save();render();break}}
+function unlock(){if(pw.value==="0725"){d.ok=true;save();err.textContent="✓ 직원 인증 완료";draw.classList.add("show")}else err.textContent="비밀번호가 맞지 않습니다."}
+function pick(){if(!d.ok||d.result)return;let p=prizes[Math.floor(Math.random()*prizes.length)];d.result={name:p[0],icon:p[1]};save();show(d.result)}
+function show(r){rico.textContent=r.icon;won.textContent=r.name+" 당첨!";result.style.display="flex"}render();
+</script></body></html>
